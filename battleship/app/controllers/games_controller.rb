@@ -49,7 +49,7 @@ class GamesController < ApplicationController
   end
 
   def over
-    if @current_user == User.find(@current_game.winner_id)
+    @current_user == User.find(@current_game.winner_id)
   end
 
   def update
@@ -114,6 +114,7 @@ private
       false
     else
       Ship.find(opp_tile.ship_id).type
+    end
   end
 
   def game_over?
@@ -130,6 +131,97 @@ private
     else
       false
     end
+  end
+
+
+  def set_up_ships(game)
+    aircraft = Ship.new(name: "Aircraft Carrier", length: 5, game: game)
+    battle = Ship.new(name: "Battleship", length: 4, game: game)
+    sub = Ship.new(name: "Submarine", length: 1, game: game)
+    destroyer = Ship.new(name: "Destroyer", length: 2, game: game)
+    tom = Ship.new(name: "Cruiser", length: 3, game: game)
+    aircraft2 = Ship.new(name: "Aircraft Carrier", length: 5, game: game)
+    battle2 = Ship.new(name: "Battleship", length: 4, game: game)
+    sub2 = Ship.new(name: "Submarine", length: 1, game: game)
+    destroyer2 = Ship.new(name: "Destroyer", length: 2, game: game)
+    tom2 = Ship.new(name: "Cruiser", length: 3, game: game)
+
+    place_ship_at("c, 7", "vertical", tom, game, game.player_1)
+    place_ship_at("a, 1", "horizontal", sub, game, game.player_1)
+    place_ship_at("i, 2", "horizontal", aircraft, game, game.player_1)
+    place_ship_at("f, 5", "vertical", battle, game, game.player_1)
+    place_ship_at("b, 10", "vertical", destroyer, game, game.player_1)
+
+    place_ship_at("e, 4", "vertical", tom2, game, game.player_2)
+    place_ship_at("j, 9", "horizontal", sub2, game, game.player_2)
+    place_ship_at("d, 1", "horizontal", aircraft2, game, game.player_2)
+    place_ship_at("g, 9", "vertical", battle2, game, game.player_2)
+    place_ship_at("i, 3", "vertical", destroyer2, game, game.player_2)
+
+    p1_tiles = game.player_1.tiles
+  end
+
+
+  def place_ship_at(coordinate, orientation, ship, game, player)
+    valid_tiles = []
+    if valid_coordinate?(coordinate)
+      potential_tile = game.player_1.tiles.find_by(coordinate: coordinate)
+      if !potential_tile.ship
+        valid_tiles << potential_tile
+      else
+        return nil
+      end
+      letter = coordinate[0].ord
+      number = coordinate[-1].to_i
+      ship_tail = ship.length - 1
+      ship_tail.times do
+        if orientation == "horizontal"
+          number += 1
+          if !valid_coordinate("#{letter.chr}, #{number}")
+            return nil
+          else
+            potential_tile = game.player.tiles.find_by(coordinate: "#{letter.chr}, #{number}")
+            if !potential_tile.ship
+              valid_tiles << potential_tile
+            else
+              return nil
+            end
+          end
+        elsif orientation == "vertical"
+          letter += 1
+          if !valid_coordinate("#{letter.chr}, #{number}")
+            return nil
+          else
+            potential_tile = game.player.tiles.find_by(coordinate: "#{letter.chr}, #{number}")
+            if !potential_tile.ship
+              valid_tiles << potential_tile
+            else
+              return nil
+            end
+          end
+        end
+      end
+    end
+    if valid_tiles.empty?
+      return nil
+    else
+      ship.tiles << valid_tiles
+    end
+  end
+
+  def valid_coordinate?(coordinate)
+    letter = coordinate[0]
+    number = coordinate[-1]
+    if letter.ord > "j".ord
+      return false
+    elsif letter.ord < "a".ord
+      return false
+    elsif number > 10
+      return false
+    elsif letter.ord < 1
+      return false
+    end
+    return true
   end
 
 end
