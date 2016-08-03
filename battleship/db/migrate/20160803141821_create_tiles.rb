@@ -5,6 +5,7 @@ class CreateTiles < ActiveRecord::Migration[5.0]
       t.boolean :hit, default: false
       t.integer :ship_id, foreign_key: true
       t.integer :game_id, foreign_key: true
+      t.integer :player_id, foreign_key true
 
       t.timestamps
     end
