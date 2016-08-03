@@ -11,7 +11,7 @@
       <tr>
         <td class="coordinate_header"><%= number_to_letter(row) %></td>
         <% 10.times do |column| %>
-          <% if @opponent_board.find_by(coordinates: "#{number_to_letter(row)},#{column}").hit == true %>
+          <% if @opponent_board.find_by(coordinates: "#{number_to_letter(row)}, #{column}").hit == true %>
             <td class="coordinate">X</td>
           <% else %>
             <td class="coordinate"></td>
@@ -35,7 +35,7 @@
       <tr>
         <td class="coordinate_header"><%= number_to_letter(row) %></td>
         <% 10.times do |column| %>
-          <% if @your_board.find_by(coordinates: "#{number_to_letter(row)},#{column}").hit == true %>
+          <% if @your_board.find_by(coordinates: "#{number_to_letter(row)}, #{column}").hit == true %>
             <td class="coordinate">X</td>
           <% else %>
             <td class="coordinate"></td>
