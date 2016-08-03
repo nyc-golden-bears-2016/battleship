@@ -22,7 +22,7 @@ class GamesController < ActionController::Base
     if @opponent_board.empty?
       @opponent_board = Game.create_opponent_tiles
     end
-    @your_board = @game.tiles.where(player_id: session[:id])
+    @your_board = @game.tiles.where(player_id: 1)
   end
 
   def hit
