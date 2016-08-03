@@ -46,11 +46,16 @@
   </table>
 </div>
 
-<% @rows = [['a'],['b'], ['c'], ['d'], ['e'], ['f'], ['g'], ['h'], ['i'], ['j']] %>
-<% @cols = [['1'],['2'], ['3'], ['4'], ['5'], ['6'], ['7'], ['8'], ['9'], ['10']] %>
+<% if @game.player_turn %>
 
-<%= form_tag("/games/:id", method: 'patch') do %>
-  <%= select_tag(:coord_row, options_for_select( @rows )) %>
-  <%= select_tag(:coord_col, options_for_select( @cols )) %>
-  <%= submit_tag "Fire" %>
+  <% @rows = [['a'],['b'], ['c'], ['d'], ['e'], ['f'], ['g'], ['h'], ['i'], ['j']] %>
+  <% @cols = [['1'],['2'], ['3'], ['4'], ['5'], ['6'], ['7'], ['8'], ['9'], ['10']] %>
+
+  <%= form_tag("/games/:id", method: 'patch') do %>
+    <%= select_tag(:coord_row, options_for_select( @rows )) %>
+    <%= select_tag(:coord_col, options_for_select( @cols )) %>
+    <%= submit_tag "Fire" %>
+  <% end %>
+
 <% end %>
+
