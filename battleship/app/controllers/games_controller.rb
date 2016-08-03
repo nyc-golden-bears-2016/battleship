@@ -55,8 +55,10 @@ class GamesController < ApplicationController
   def update
     row = fire_params[:row]
     col = fire_params[:column]
-    coord = col + ', ' + row
-    tile = Tile.find_by(coordinates: coord)
+    coord = row + ', ' + col
+    tile = Tile.find_by(coordinates: coord, game_id: params[:id], player_id: 1) #player_id: current_user.id)
+    binding.pry
+
     if tile
       tile.hit = true
       tile.save
