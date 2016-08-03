@@ -1,10 +1,12 @@
 class GamesController < ActionController::Base
-  # before_action :is_current_user, :which_player
+  before_action :current_user
+  # before_action :which_player
 
   def new
   end
 
   def create
+    @game = Game.create(player_1: @current_user)
   end
 
   def show
@@ -14,6 +16,7 @@ class GamesController < ActionController::Base
   end
 
   def hold
+    # @number =
   end
 
   def over
@@ -26,7 +29,7 @@ private
   end
 
   def logged_in?
-    !current_user.nil?
+    session[:user_id]
   end
 
   def current_user
@@ -43,3 +46,5 @@ private
       @current_user = @player_2
     end
   end
+
+end

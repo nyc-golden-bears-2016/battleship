@@ -9,7 +9,7 @@ class SessionsController < ActionController::Base
      session[:user_id] = @user.id
      redirect_to '/'
    else
-     redirect_to '/login'
+     render 'new'
    end
  end
 

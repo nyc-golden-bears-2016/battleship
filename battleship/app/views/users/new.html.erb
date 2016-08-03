@@ -1,6 +1,6 @@
-<%= form_for :user, url: '/users' do |f| %>
+<h1>Register Below</h1>
 
-<% if @user.errors.any? %>
+<% if @user && @user.errors.any? %>
   <ul>
     <% @user.errors.full_messages.each do |message| %>
       <li><%= message %></li>
@@ -8,8 +8,9 @@
     </ul>
 <% end %>
 
-  Name: <%= f.text_field :username %>
-  Password: <%= f.password_field :password %>
-  <%= f.submit "Submit" %>
+<%= form_for :user, url: '/users' do |f| %>
+  Name: <%= f.text_field :username %><br>
+  Password: <%= f.password_field :password %><br>
+  <%= f.submit "Submit" %><br>
 
 <% end %>
