@@ -15,6 +15,8 @@ class GamesController < ActionController::Base
       @number = @current_game.id
       @message = "Second player has not arrived."
       render 'hold'
+    elsif game_over?
+      render '/over'
     else
       @opponent_board = @current_game.tiles.where(player_id: opponent.id)
       @your_board = @current_game.tiles.where(player_id: @current_user.id)
@@ -58,7 +60,11 @@ class GamesController < ActionController::Base
     if tile
       tile.hit = true
       tile.save
-      # if ship was on tile go render '/hit' else render '/show'
+      if ship_hit(tile)
+        redirect_to '/hit'
+      else
+        redirect_to '/show'
+      end
     else
       render 'show'
       @errors = tile.errors.full_messages
@@ -102,11 +108,28 @@ private
     end
   end
 
-  # def check_if_game_over
-  #   p1_ships = @current_game.ships.where(player_id: @current_user)
-  #   p1_ships.each do |ship|
-  #     ship.tiles.
-  #   p2_ships = @current_game.ships.where(player_id: @opponent)
-  # end
+  def ship_hit(tile)
+    opp_tile = @opponent.tiles.find_by(coordinates: tile.coordinates)
+    if opp_tile.ship_id == nil
+      false
+    else
+      Ship.find(opp_tile.ship_id).type
+  end
+
+  def game_over?
+    p1_ships = @current_game.ships.where(player_id: @current_user)
+    p1_ships.each do |ship|
+        p1_in_use = ship.tiles.take_while { |tile| tile.hit == true }
+    end
+    p2_ships = @current_game.ships.where(player_id: @opponent)
+    p2_ships.each do |ship|
+        p2_in_use = ship.tiles.take_while { |tile| tile.hit == true }
+    end
+    if p1_in_use.empty? || p2_in_use.empty?
+      true
+    else
+      false
+    end
+  end
 
 end
