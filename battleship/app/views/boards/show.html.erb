@@ -1,0 +1,47 @@
+<h1>Opponent Board</h1>
+<div>
+  <table style="width:100%">
+    <tr>
+      <th class="coordinate_header"> </th>
+      <% 10.times do |row| %>
+        <th class="coordinate_header"><%= (row + 1) %></th>
+      <% end %>
+    </tr>
+    <% 10.times do |row| %>
+      <tr>
+        <td class="coordinate_header"><%= number_to_letter(row) %></td>
+        <% 10.times do |column| %>
+          <% if @opponent_board.find_by(coordinates: "#{number_to_letter(row)},#{column}").hit == true %>
+            <td class="coordinate">X</td>
+          <% else %>
+            <td class="coordinate"></td>
+          <% end %>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+</div>
+
+<h1>Your Board</h1>
+<div>
+  <table style="width:100%">
+    <tr>
+      <th class="coordinate_header"> </th>
+      <% 10.times do |header_row| %>
+        <th class="coordinate_header"><%= (header_row + 1) %></th>
+      <% end %>
+    </tr>
+    <% 10.times do |row| %>
+      <tr>
+        <td class="coordinate_header"><%= number_to_letter(row) %></td>
+        <% 10.times do |column| %>
+          <% if @your_board.find_by(coordinates: "#{number_to_letter(row)},#{column}").hit == true %>
+            <td class="coordinate">X</td>
+          <% else %>
+            <td class="coordinate"></td>
+          <% end %>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+</div>
