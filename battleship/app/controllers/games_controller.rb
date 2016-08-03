@@ -36,9 +36,16 @@ class GamesController < ApplicationController
 
 
   def hit
-
+    @ship = Ship.find(params[:id])
+    if @ship.is_destroyed?
+      redirect_to '/game/#{game.id}/destroy/#{@ship.id}'
+    end
   end
 
+  def destroy
+    @destroyed_ship = Ship.find(params[:ship_id])
+  end
+  
   def hold
     if !@current_game.player_2_id.nil?
       redirect_to "/games/#{@current_game.id}"
