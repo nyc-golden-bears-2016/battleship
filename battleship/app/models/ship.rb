@@ -4,4 +4,8 @@ class Ship < ApplicationRecord
 
   validates :game, presence: true
 
+  def is_destroyed?
+    self.tiles.all? { |tile| tile.hit }
+  end
+
 end
