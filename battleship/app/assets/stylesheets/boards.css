@@ -1,0 +1,12 @@
+.coordinate_header {
+  border: 1px solid black;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+.coordinate {
+  border: 1px dotted black;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
