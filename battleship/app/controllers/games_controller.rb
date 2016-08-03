@@ -45,7 +45,7 @@ class GamesController < ActionController::Base
       tile.save
     else
       @errors = tile.errors.full_messages
-    end
+    enda
   end
 
 private
