@@ -1,4 +1,4 @@
-class GamesController < ActionController::Base
+class GamesController < ApplicationController
   before_action :current_user
   before_action :which_player, :current_game, only: [:show, :update, :hit, :hold]
 
