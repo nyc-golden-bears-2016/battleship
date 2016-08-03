@@ -120,16 +120,20 @@ private
   end
 
   def game_over?
-    p1_ships = @current_game.ships.where(player_id: @current_user)
-    p1_ships.each do |ship|
-        p1_in_use = ship.tiles.take_while { |tile| tile.hit == true }
-    end
-    p2_ships = @current_game.ships.where(player_id: @opponent)
-    p2_ships.each do |ship|
-        p2_in_use = ship.tiles.take_while { |tile| tile.hit == true }
-    end
-    if p1_in_use.empty? || p2_in_use.empty?
-      true
+    p1_ships = @current_game.ships.where(game_id: @current_game.id)
+    if !p1_ships.empty?
+      p1_ships.each do |ship|
+          p1_in_use = ship.tiles.take_while { |tile| tile.hit == true }
+      end
+      p2_ships = @current_game.ships.where(player_id: @opponent)
+      p2_ships.each do |ship|
+          p2_in_use = ship.tiles.take_while { |tile| tile.hit == true }
+      end
+      if p1_in_use.empty? || p2_in_use.empty?
+        true
+      else
+        false
+      end
     else
       false
     end
