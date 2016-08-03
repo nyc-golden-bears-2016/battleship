@@ -1,42 +1,37 @@
 class GamesController < ApplicationController
   before_action :current_user
-  before_action :which_player, :current_game, only: [:show, :update, :hit, :hold]
+  before_action :current_game, only: [:show, :update, :hit, :hold]
 
   def new
   end
 
   def create
     @game = Game.create(player_1: @current_user)
-    redirect_to '/hold'
+    redirect_to "/games/#{@game.id}/hold"
   end
 
   def show
-    if @current_game.player_2 == nil
-      @number = @current_game.id
+    if current_game.player_2 == nil
+      @number = current_game.id
       @message = "Second player has not arrived."
       render 'hold'
     elsif game_over?
       render '/over'
     else
-      @opponent_board = @current_game.tiles.where(player_id: opponent.id)
-      @your_board = @current_game.tiles.where(player_id: @current_user.id)
+      if current_game.tiles.where(player_id: @current_user.id).empty?
+        current_game.create_tiles(@current_user.id)
+        current_game.create_opponent_tiles(opponent.id)
+      end
     end
-    # p_1 = User.first
-    # p_2 = User.last
-    # @game = Game.create(player_1_id: p_1.id, player_2_id: p_2.id)
-    # @game.create_tiles
-    # @opponent_board = @game.tiles.where(player_id: opponent(params[:id]).id)
-    # if @opponent_board.empty?
-    #   @opponent_board = Game.create_opponent_tiles
-    # end
-    # @your_board = @game.tiles.where(player_id: 1)
+      @opponent_board = current_game.tiles.where(player_id: opponent.id)
+      @your_board = current_game.tiles.where(player_id: @current_user.id)
   end
 
   def join
-    game = Game.find(params[:game_id])
+    game = Game.find(params[:game]["gamenum"].to_i)
     game.player_2 = @current_user
     game.save
-    redirect_to "/games/#{params[:id]}"
+    redirect_to "/games/#{game.id}"
   end
 
 
@@ -45,7 +40,11 @@ class GamesController < ApplicationController
   end
 
   def hold
-    @number = @current_game.id
+    if !@current_game.player_2_id.nil?
+      redirect_to "/games/#{@current_game.id}"
+    else
+      @number = @current_game.id
+    end
   end
 
   def over
@@ -53,12 +52,12 @@ class GamesController < ApplicationController
   end
 
   def update
-    row = fire_params[:row]
-    col = fire_params[:column]
+    params.permit(:row)
+    params.permit(:column)
+    row = params[:row]
+    col = params[:column]
     coord = row + ', ' + col
-    tile = Tile.find_by(coordinates: coord, game_id: params[:id], player_id: 1) #player_id: current_user.id)
-    binding.pry
-
+    tile = Tile.find_by(coordinates: coord, game_id: params[:id], player_id: @current_user.id)
     if tile
       tile.hit = true
       tile.save
@@ -75,9 +74,10 @@ class GamesController < ApplicationController
 
 private
 
-  def fire_params
-    params.require(:fire).permit(:row, :column)
-  end
+  # def fire_params
+  #   binding.pry
+  #   params.require(:fire).permit(:row, :column)
+  # end
 
   def logged_in?
     session[:user_id]
@@ -90,23 +90,23 @@ private
   end
 
   def current_game
-    @current_game = Game.find(params[:id])
+    @current_game ||= Game.find(params[:id])
   end
 
-  def which_player
-    game = Game.find(params[:id])
-    if @current_user == game.player_1
-      @current_user = @player_1
-    elsif @current_user == game.player_2
-      @current_user = @player_2
-    end
-  end
+  # def which_player
+  #   game = Game.find(params[:id])
+  #   if @current_user == game.player_1
+  #     player_1 = @current_user
+  #   elsif @current_user == game.player_2
+  #     player_2 = @current_user
+  #   end
+  # end
 
   def opponent
-    if which_player == @current_game.player_1
-      @current_game.player_2
-    elsif which_player == @current_game.player_2
-      @current_game.player_1
+    if @current_user == current_game.player_1
+      current_game.player_2
+    elsif @current_user == current_game.player_2
+      current_game.player_1
     end
   end
 
@@ -120,12 +120,12 @@ private
   end
 
   def game_over?
-    p1_ships = @current_game.ships.where(game_id: @current_game.id)
+    p1_ships = current_game.ships.where(game_id: current_game.id)
     if !p1_ships.empty?
       p1_ships.each do |ship|
           p1_in_use = ship.tiles.take_while { |tile| tile.hit == true }
       end
-      p2_ships = @current_game.ships.where(player_id: @opponent)
+      p2_ships = current_game.ships.where(player_id: @opponent)
       p2_ships.each do |ship|
           p2_in_use = ship.tiles.take_while { |tile| tile.hit == true }
       end
