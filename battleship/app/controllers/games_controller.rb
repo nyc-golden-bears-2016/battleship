@@ -7,23 +7,23 @@ class GamesController < ActionController::Base
   end
 
   def create
-    @game = Game.create(player_1: @current_user)
+
   end
 
    def show
+    # borrowing from show
+    p_1 = User.create(username: "Ben", password: "test")
+    p_2 = User.create(username: "Kudler", password: "test")
+    @game = Game.create(player_1_id: p_1.id, player_2_id: p_2.id)
+    # end borrowing
     game = Game.find(params[:id])
-    @opponent_board = game.tiles.where(player_id: opponent.id)
-    @your_board = game.tiles.where(player_id: session[:id])
-    # # debug
-    #   game = Game.new
-    #   100.times do
-    #     game.tiles << Tile.new
-    #   end
-    #   @opponent_board = game.tiles
-    #   @your_board = game.tiles
-    #   @your_board[0].hit = true;
-    # # debug END
+    @opponent_board = game.tiles.where(player_id: opponent(params[:id]).id)
+    binding.pry
+    if @opponent_board.empty?
+      @opponent_board = Game.create_opponent_tiles
     end
+    @your_board = game.tiles.where(player_id: session[:id])
+  end
 
   def hit
   end
@@ -45,7 +45,7 @@ class GamesController < ActionController::Base
       tile.save
     else
       @errors = tile.errors.full_messages
-    enda
+    end
   end
 
 private
@@ -73,8 +73,14 @@ private
     end
   end
 
-
-
-
+  def opponent(game_id)
+    game = Game.find_by(id: game_id)
+    # current user?
+    if game.player_1_id == session[:id]
+      return game.player_2
+    else
+      return game.player_1
+    end
+  end
 
 end
