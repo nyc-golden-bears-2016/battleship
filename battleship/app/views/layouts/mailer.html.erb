@@ -8,6 +8,13 @@
   </head>
 
   <body>
+    <nav>
+  <% if @current_user %>
+    <%= @current_user.username.upcase %> |  <%= link_to 'Logout', logout_path %>
+  <% else %>
+    <%= link_to 'Login', '/login' %> | <%= link_to 'Signup', signup_path %>
+  <% end %>
+  </nav>
     <%= yield %>
   </body>
 </html>
