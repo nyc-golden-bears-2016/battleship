@@ -8,3 +8,4 @@
 - message is displayed on separate page when a user destroys entire ship (taiki)
 - user can return to battle page
 - when game is over users are taken to separate pages
+

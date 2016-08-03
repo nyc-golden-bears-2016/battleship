@@ -1,3 +1,4 @@
+
 class GamesController < ActionController::Base
   before_action :current_user
   # before_action :which_player
@@ -20,6 +21,20 @@ class GamesController < ActionController::Base
   end
 
   def over
+  end
+
+  def update
+    row = params[:coord_row]
+    col = params[:coord_row]
+    coord = col + ', ' + row
+    tile = Tile.find_by(coordinates: coord)
+    if tile
+      tile.hit = true
+      tile.save
+    else
+      @errors = tile.errors.full_messages
+    end
+    binding.pry
   end
 
 private
@@ -46,5 +61,9 @@ private
       @current_user = @player_2
     end
   end
+
+
+
+
 
 end

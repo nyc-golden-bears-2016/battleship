@@ -4,4 +4,5 @@ class Tile < ApplicationRecord
   belongs_to :player
 
   validates :player, :game, presence: true
+
 end
