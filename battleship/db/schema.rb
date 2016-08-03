@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 20160803141821) do
     t.boolean  "hit",         default: false
     t.integer  "ship_id"
     t.integer  "game_id"
+    t.integer  "player_id"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
   end
