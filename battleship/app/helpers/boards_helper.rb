@@ -1,7 +1,7 @@
 module BoardsHelper
 
   def number_to_letter(number)
-    (number + 65).chr
+    (number + 97).chr
   end
 
 end
