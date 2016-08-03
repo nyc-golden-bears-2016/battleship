@@ -132,4 +132,56 @@ private
     end
   end
 
+
+  def set_up_ships(game)
+    aircraft = Ship.new(name: "Aircraft Carrier", length: 5, game: game)
+    battle = Ship.new(name: "Battleship", length: 4, game: game)
+    sub = Ship.new(name: "Submarine", length: 1, game: game)
+    destroyer = Ship.new(name: "Destroyer", length: 2, game: game)
+    tom = Ship.new(name: "Cruiser", length: 3, game: game)
+    aircraft2 = Ship.new(name: "Aircraft Carrier", length: 5, game: game)
+    battle2 = Ship.new(name: "Battleship", length: 4, game: game)
+    sub2 = Ship.new(name: "Submarine", length: 1, game: game)
+    destroyer2 = Ship.new(name: "Destroyer", length: 2, game: game)
+    tom2 = Ship.new(name: "Cruiser", length: 3, game: game)
+
+    p1_tiles = game.player_1.tiles
+  end
+
+  def place_ship_at(coordinate, orientation, ship, game)
+    if valid_coordinate?(coordinate)
+      ship.tiles << game.player_1.tiles.find_by(coordinate: coordinate)
+      letter = coordinate[0].ord
+      number = coordinate[-1].to_i
+      ship.length.times do
+        if orientation == "horizontal"
+          number += 1
+          if !valid_coordinate("#{letter.chr}, #{number}")
+            return nil
+          else
+            ship.tiles << game.player_1.tiles.find_by(coordinate: "#{letter.chr}, #{number}")
+          end
+        elsif orientation == "vertical"
+
+        end
+      end
+    end
+    return nil
+  end
+
+  def valid_coordinate?(coordinate)
+    letter = coordinate[0]
+    number = coordinate[-1]
+    if letter.ord > "j".ord
+      return false
+    elsif letter.ord < "a".ord
+      return false
+    elsif number > 10
+      return false
+    elsif letter.ord < 1
+      return false
+    end
+    return true
+  end
+
 end
