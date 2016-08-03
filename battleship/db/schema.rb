@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20160803141821) do
   end
 
   create_table "ships", force: :cascade do |t|
-    t.string   "type"
+    t.string   "name"
     t.integer  "length"
     t.integer  "game_id"
     t.datetime "created_at", null: false
