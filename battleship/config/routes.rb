@@ -12,5 +12,6 @@ get '/signup' => 'users#new'
 get '/games/:id/hit' => 'games#hit'
 get '/games/:id/hold' => 'games#hold'
 get 'games/:id/over' => 'games#over'
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+
 end

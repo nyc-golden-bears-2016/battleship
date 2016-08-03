@@ -1,49 +1,66 @@
-
 class GamesController < ActionController::Base
   before_action :current_user
-  # before_action :which_player
+  before_action :which_player, :current_game, only: [:show, :update, :hit, :hold]
 
   def new
   end
 
   def create
-
+    @game = Game.create(player_1: @current_user)
+    redirect_to '/hold'
   end
 
-   def show
-    # borrowing from show
-    p_1 = User.first
-    p_2 = User.last
-    @game = Game.create(player_1_id: p_1.id, player_2_id: p_2.id)
-    @game.create_tiles
-
-    # game = Game.find(params[:id])
-    @opponent_board = @game.tiles.where(player_id: opponent(params[:id]).id)
-    if @opponent_board.empty?
-      @opponent_board = Game.create_opponent_tiles
+  def show
+    if @current_game.player_2 == nil
+      @number = @current_game.id
+      @message = "Second player has not arrived."
+      render 'hold'
+    else
+      @opponent_board = @current_game.tiles.where(player_id: opponent.id)
+      @your_board = @current_game.tiles.where(player_id: @current_user.id)
     end
-    @your_board = @game.tiles.where(player_id: 1)
+    # p_1 = User.first
+    # p_2 = User.last
+    # @game = Game.create(player_1_id: p_1.id, player_2_id: p_2.id)
+    # @game.create_tiles
+    # @opponent_board = @game.tiles.where(player_id: opponent(params[:id]).id)
+    # if @opponent_board.empty?
+    #   @opponent_board = Game.create_opponent_tiles
+    # end
+    # @your_board = @game.tiles.where(player_id: 1)
   end
+
+  def join
+    game = Game.find(params[:game_id])
+    game.player_2 = @current_user
+    game.save
+    redirect_to "/games/#{params[:id]}"
+  end
+
 
   def hit
+
   end
 
   def hold
-    # @number =
+    @number = @current_game.id
   end
 
   def over
+    if @current_user == User.find(@current_game.winner_id)
   end
 
   def update
-    row = params[:coord_row]
-    col = params[:coord_row]
+    row = fire_params[:row]
+    col = fire_params[:column]
     coord = col + ', ' + row
     tile = Tile.find_by(coordinates: coord)
     if tile
       tile.hit = true
       tile.save
+      # if ship was on tile go render '/hit' else render '/show'
     else
+      render 'show'
       @errors = tile.errors.full_messages
     end
   end
@@ -51,7 +68,7 @@ class GamesController < ActionController::Base
 private
 
   def fire_params
-    params.require(:fire).permit(:coordinates)
+    params.require(:fire).permit(:row, :column)
   end
 
   def logged_in?
@@ -64,6 +81,10 @@ private
     end
   end
 
+  def current_game
+    @current_game = Game.find(params[:id])
+  end
+
   def which_player
     game = Game.find(params[:id])
     if @current_user == game.player_1
@@ -73,14 +94,19 @@ private
     end
   end
 
-  def opponent(game_id)
-    game = Game.find_by(id: game_id)
-    # current user?
-    if game.player_1_id == session[:id]
-      return game.player_2
-    else
-      return game.player_1
+  def opponent
+    if which_player == @current_game.player_1
+      @current_game.player_2
+    elsif which_player == @current_game.player_2
+      @current_game.player_1
     end
   end
+
+  # def check_if_game_over
+  #   p1_ships = @current_game.ships.where(player_id: @current_user)
+  #   p1_ships.each do |ship|
+  #     ship.tiles.
+  #   p2_ships = @current_game.ships.where(player_id: @opponent)
+  # end
 
 end
