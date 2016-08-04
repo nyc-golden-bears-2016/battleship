@@ -11,3 +11,64 @@
   width: 20px;
   height: 20px;
 }*/
+
+
+.your-turn {
+  border: 2px solid green;
+}
+
+.their-turn {
+  border: 2px solid red;
+}
+
+.error {
+  color: red;
+  font-size: 30px;
+  background-color: white;
+}
+
+#new-game{
+  margin: 20px;
+  padding: 50px;
+}
+.nav-bar {
+  background-color: #ccffff;
+  padding: 20px;
+  border-bottom: 1px solid black;
+  margin-bottom: 5px;
+}
+
+.hold,
+.hit {
+  background-color: white;
+  color: black;
+  font-size: 14px;
+  padding-left: 20px;
+  margin-left: auto;
+}
+
+.hold-text,
+.over-text,
+.hit-text,
+.player {
+  border: 1px solid black;
+  background-color: white;
+  opacity: .95;
+  border-radius: 7px;
+}
+
+.sunk-text {
+  width: 100px;
+  color: white;
+  font-size: 24px;
+}
+
+
+body {
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  width: 80%;
+  margin: auto;
+  margin-bottom: 100%;
+}
+

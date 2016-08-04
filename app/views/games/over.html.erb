@@ -1,5 +1,5 @@
 <% if @current_game.winner_id == @current_user.id %>
-  <p>YOU WIN!!!!!</p>
+  <h1 class="over-text">Well played, <%= @current_user.username.capitalize %>. You win!</h1>
 <% else %>
-  <p>You lost the battle, but did you lose the war?</p>
+  <h1 class="over-text">You lost the battle, <%= @current_user.username.capitalize %>, but did you lose the war?</h1>
 <% end %>
