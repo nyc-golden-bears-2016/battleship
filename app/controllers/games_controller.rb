@@ -15,8 +15,14 @@ class GamesController < ApplicationController
       @number = current_game.id
       @message = "Second player has not arrived."
       render 'hold'
-    # elsif game_over?
-    #   render :over
+    elsif user_game_over?
+      @current_game.winner_id = opponent.id
+      @current_game.save
+      render :over
+    elsif  opponent_game_over?
+      @current_game.winner_id = current_user.id
+      @current_game.save
+      render :over
     else
       if current_game.tiles.where(player_id: @current_user.id).empty?
         current_game.create_tiles(@current_user.id)
@@ -24,6 +30,7 @@ class GamesController < ApplicationController
         set_up_ships(@current_game)
       end
     end
+      @player_turn = player_turn
       @opponent_board = current_game.tiles.where(player_id: opponent.id)
       @your_board = current_game.tiles.where(player_id: @current_user.id)
   end
@@ -104,37 +111,44 @@ private
     end
   end
 
-
-  def game_over?
-    # p1_ships = @current_game.ships.where(player_id: @current_user.id)
-    # p1_ships.each do |ship|
-    #   p1_in_use = ship.tiles.reject { |tile| tile.hit == false }
-    # end
-    # p2_ships = @current_game.ships.where(player_id: opponent.id)
-    # p2_ships.each do |ship|
-    #   p2_in_use = ship.tiles.reject { |tile| tile.hit == false }
-    # end
-    # if p1_in_use.empty? || p2_in_use.empty?
-    #   true
-    # else
-    #   false
-    # # end
-    # User.where(:username => "Paul").includes(:domains).where("domains.name" => "paul-domain")
-    your_tiles = @current_game.ships.map do |ship|
-      ship.tiles.where(player_id: @current_user.id)
-    end
-    your_tiles.flatten!
-    your_ships = your_tiles.map do |tile|
-      tile.ship
-    end
-    your_ships.uniq!
-    if your_ships.all? { |ship| ship.is_destroyed? }
-      return true
+  def player_turn
+    total_tiles = Tile.all.where(game_id: current_game.id, hit: true).count
+    if total_tiles.even? && @current_game.player_1.id == current_user.id
+      true
+    elsif total_tiles.odd? && @current_game.player_2.id == current_user.id
+      true
     else
-      return false
+      false
     end
   end
 
+
+  def user_game_over?
+    if !@current_game.tiles.empty?
+      your_tiles = @current_game.tiles.where(player_id: @current_user.id)
+      your_tiles.each do |tile|
+        if tile.ship && ( tile.hit == false )
+          return false
+        end
+      end
+      return true
+    end
+    return false
+  end
+
+
+  def opponent_game_over?
+    if !@current_game.tiles.empty?
+      opponent_tiles = @current_game.tiles.where(player_id: opponent.id)
+      opponent_tiles.each do |tile|
+        if tile.ship && ( tile.hit == false )
+          return false
+        end
+      end
+      return true
+    end
+    return false
+  end
 
   def set_up_ships(game)
     # aircraft = Ship.create(name: "Aircraft Carrier", length: 5, game: game)

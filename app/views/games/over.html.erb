@@ -1,1 +1,5 @@
-GAME OVER
+<% if @current_game.winner_id == @current_user.id %>
+  <p>YOU WIN!!!!!</p>
+<% else %>
+  <p>You lost the battle, but did you lose the war?</p>
+<% end %>
