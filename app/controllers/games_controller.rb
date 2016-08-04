@@ -1,3 +1,5 @@
+require 'json'
+
 class GamesController < ApplicationController
   before_action :current_user
   before_action :current_game, :opponent, only: [:turn, :show, :update, :hit, :hold, :destroy]
@@ -83,10 +85,8 @@ class GamesController < ApplicationController
   end
 
   def turn
-    player = player_turn
-    respond_to do |format|
-     format.json { myTurn :player }
-   end
+    @player = player_turn
+    render :json => @player
   end
 
 private

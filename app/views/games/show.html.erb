@@ -16,7 +16,7 @@
     </tr>
     <% 10.times do |row| %>
       <tr>
-        <td class="coordinate_header <%= @opponent_color %>"><%= number_to_letter(row) %></td>
+        <td class="coordinate_header"><%= number_to_letter(row) %></td>
         <% 10.times do |column| %>
           <% current_tile = @opponent_board.find_by(coordinates: "#{number_to_letter(row)}, #{column + 1}") %>
           <% if !current_tile.ship && current_tile.hit == true %>
@@ -52,8 +52,8 @@
       <% end %>
     </tr>
     <% 10.times do |row| %>
-      <tr class="<%= @your_color %>">
-        <td class="coordinate_header <%= @your_color %>"><%= number_to_letter(row) %></td>
+      <tr >
+        <td class="coordinate_header "><%= number_to_letter(row) %></td>
         <% 10.times do |column| %>
           <% current_tile = @your_board.find_by(coordinates: "#{number_to_letter(row)}, #{column + 1}") %>
           <% if !current_tile.ship && current_tile.hit == true %>
@@ -72,8 +72,6 @@
 </div>
 
 
-<!-- displays fire coordinate form if user's turn -->
-<% if @player_turn %>
 
   <% @rows = [['a'],['b'], ['c'], ['d'], ['e'], ['f'], ['g'], ['h'], ['i'], ['j']] %>
   <% @cols = [['1'],['2'], ['3'], ['4'], ['5'], ['6'], ['7'], ['8'], ['9'], ['10']] %>
@@ -83,6 +81,8 @@
     <%= select_tag(:column, options_for_select( @cols )) %>
     <%= submit_tag "Fire" %>
   <% end %>
+<!-- displays fire coordinate form if user's turn -->
+<% if @player_turn %>
 
 <% end %>
   </div>
