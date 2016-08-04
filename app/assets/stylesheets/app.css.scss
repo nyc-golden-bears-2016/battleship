@@ -1,8 +1,8 @@
 .opener {
   background: asset-data-url("ship.jpeg") no-repeat center center fixed;
   background-size: cover;
-  width:100%;
-  height:100%;
+  // width:100%;
+  // height:100%;
   color: black;
   font-family: verdana, sans-serif;
   font-size: 20px;
@@ -56,28 +56,26 @@ nav h2 {
 }
 
 #gamepage{
-  background: asset-data-url("deepsea.jpg") no-repeat fixed;
+  background: asset-data-url("sea2.jpg") no-repeat fixed;
   background-size: cover;
   text-align: center;
+  // max-height: 800px;
+  font-family: sans-serif;
+  font-weight: bolder;
+  padding: 50px;
 }
 
 table {
-
-  // border: 10px solid black;
-  max-height: 35vh;
+  max-height: 15vh;
   max-width: 80vw;
   display: inline-table;
-  // margin-left: 20px;
-  // margin-right: 20px;
+  margin-bottom: 10px;
 }
 
-// #tables{
-//   height: 200px;
-// }
-
 td{
-  // height: 30px;
+  // max-height: 15vh;
+  // min-width: 12vw;
   border: none;
   margin: 10px;
-  background-color: #0F3238;
+  background-color: #5C8196;
 }

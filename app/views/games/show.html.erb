@@ -1,6 +1,6 @@
 <div id='gamepage'>
   <div id='tables'>
-  <h1>Opponent Board</h1>
+  <h1><%=@opponent.username.upcase%></h1>
 <div>
   <table style="width:100%">
     <tr>
@@ -15,9 +15,9 @@
         <% 10.times do |column| %>
           <% current_tile = @opponent_board.find_by(coordinates: "#{number_to_letter(row)}, #{column + 1}") %>
           <% if !current_tile.ship && current_tile.hit == true %>
-            <td class="coordinate">O</td>
+            <td class="coordinate">&#128711;</td>
           <% elsif current_tile.ship && current_tile.hit == true %>
-            <td class="coordinate">X</td>
+            <td class="coordinate">&#10004;</td>
           <% else %>
             <td class="coordinate"></td>
           <% end %>
@@ -27,7 +27,7 @@
   </table>
 </div>
 
-<h1>Your Board</h1>
+<h1><%=@current_user.username.upcase%></h1>
 <div>
   <table style="width:100%">
     <tr>
@@ -42,11 +42,11 @@
         <% 10.times do |column| %>
           <% current_tile = @your_board.find_by(coordinates: "#{number_to_letter(row)}, #{column + 1}") %>
           <% if !current_tile.ship && current_tile.hit == true %>
-            <td class="coordinate">O</td>
+            <td class="coordinate">&#x25CE;</td>
           <% elsif current_tile.ship && current_tile.hit == true %>
-            <td class="coordinate">X</td>
+            <td class="coordinate">&#128680;</td>
           <% elsif current_tile.ship %>
-            <td class="coordinate">#</td>
+            <td class="coordinate">&#x25C8;</td>
           <% else %>
             <td class="coordinate"></td>
           <% end %>

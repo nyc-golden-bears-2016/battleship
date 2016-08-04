@@ -1,6 +1,6 @@
 class GamesController < ApplicationController
   before_action :current_user
-  before_action :current_game, only: [:show, :update, :hit, :hold, :destroy]
+  before_action :current_game, :opponent, only: [:show, :update, :hit, :hold, :destroy]
 
   def new
   end
@@ -11,6 +11,7 @@ class GamesController < ApplicationController
   end
 
   def show
+    @opponent = opponent
     if current_game.player_2 == nil
       @number = current_game.id
       @message = "Second player has not arrived."
