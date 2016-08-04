@@ -55,17 +55,29 @@ nav h2 {
   text-align: center;
 }
 
-// #gamepage{
-//   background-color: #002047;
+#gamepage{
+  background: asset-data-url("deepsea.jpg") no-repeat fixed;
+  background-size: cover;
+  text-align: center;
+}
+
+table {
+
+  // border: 10px solid black;
+  // height: 50%;
+  // width: 50%;
+  display: inline-table;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+// #tables{
+//   height: 200px;
 // }
-//
-// table {
-//   table-layout: fixed;
-// }
-//
-// td{
-//   height: 30px;
-//   border: none;
-//   margin: 10px;
-//   background-color: #658DB5;
-// }
+
+td{
+  height: 30px;
+  border: none;
+  margin: 10px;
+  background-color: #0F3238;
+}
