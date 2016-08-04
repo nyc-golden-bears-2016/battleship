@@ -23,11 +23,11 @@
 
 .hold,
 .hit {
-  border-left: 1px solid black;
-  padding: 20px;
-  width: 70%;
+  font-size: 14px;
+  padding-left: 20px;
   margin-left: auto;
 }
+
 
 body {
   border-left: 1px solid black;
