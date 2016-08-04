@@ -18,9 +18,11 @@ ActiveRecord::Schema.define(version: 20160803141821) do
   create_table "games", force: :cascade do |t|
     t.integer  "player_1_id"
     t.integer  "player_2_id"
+    t.boolean  "player_1_setup", default: false
+    t.boolean  "player_2_setup", default: false
     t.integer  "winner_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
   end
 
   create_table "ships", force: :cascade do |t|

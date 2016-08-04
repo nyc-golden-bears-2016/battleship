@@ -15,7 +15,7 @@ class GamesController < ApplicationController
       @number = current_game.id
       @message = "Second player has not arrived."
       render 'hold'
-    elsif current_game.player_2_setup == false || current_game.player_1_setup == false
+    elsif !(current_game.tiles.where(player_id: @current_user.id).empty?) && (current_game.player_2_setup == false || current_game.player_1_setup == false)
       render :set_up
     elsif user_game_over?
       @current_game.winner_id = opponent.id
@@ -29,6 +29,7 @@ class GamesController < ApplicationController
       if current_game.tiles.where(player_id: @current_user.id).empty?
         current_game.create_tiles(@current_user.id)
         current_game.create_opponent_tiles(opponent.id)
+        render :set_up
       end
     end
     @player_turn = player_turn

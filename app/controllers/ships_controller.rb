@@ -6,16 +6,61 @@ class ShipsController < ApplicationController
   def create
     game = Game.find_by(id: params[:id])
     player = nil
-    if session[:id] == game.player_1_id
-      player = game.player_2
-    elsif session[:id] == game.player_2_id
+    if session[:user_id] == game.player_1_id
       player = game.player_1
+    elsif session[:user_id] == game.player_2_id
+      player = game.player_2
     end
-    place_aircraft(player, game)
-    place_battle(player, game)
-    place_tom(player, game)
-    place_destroyer(player, game)
-    place_sub(player, game)
+    if place_aircraft(player, game).nil?
+      game.tiles.where(player_id: player.id).each do |tile|
+        if tile.ship
+          tile.ship.destroy
+        end
+        tile.ship_id = nil
+      end
+      flash[:placement_failed] = "Invalid placement"
+      return redirect_to "/games/#{game.id}"
+    end
+    if place_battle(player, game).nil?
+      game.tiles.where(player_id: player.id).each do |tile|
+        if tile.ship
+          tile.ship.destroy
+        end
+        tile.ship_id = nil
+      end
+      flash[:placement_failed] = "Invalid placement"
+      return redirect_to "/games/#{game.id}"
+    end
+    if place_tom(player, game).nil?
+      game.tiles.where(player_id: player.id).each do |tile|
+        if tile.ship
+          tile.ship.destroy
+        end
+        tile.ship_id = nil
+      end
+      flash[:placement_failed] = "Invalid placement"
+      return redirect_to "/games/#{game.id}"
+    end
+    if place_destroyer(player, game).nil?
+      game.tiles.where(player_id: player.id).each do |tile|
+        if tile.ship
+          tile.ship.destroy
+        end
+        tile.ship_id = nil
+      end
+      flash[:placement_failed] = "Invalid placement"
+      return redirect_to "/games/#{game.id}"
+    end
+    if place_sub(player, game).nil?
+      game.tiles.where(player_id: player.id).each do |tile|
+        if tile.ship
+          tile.ship.destroy
+        end
+        tile.ship_id = nil
+      end
+      flash[:placement_failed] = "Invalid placement"
+      return redirect_to "/games/#{game.id}"
+    end
     if player.id == game.player_1_id
       game.player_1_setup = true
       game.save
@@ -130,9 +175,11 @@ private
       end
     end
     if valid_tiles.empty?
+      binding.pry
       return nil
     else
       ship.tiles << valid_tiles
+      return true
     end
   end
 
