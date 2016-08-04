@@ -24,8 +24,7 @@
           <% elsif current_tile.ship && current_tile.hit == true %>
             <td class="coordinate <%= @opponent_color %>">&#10004;</td>
           <% else %>
-            <% binding.pry %>
-            <td class="coordinate <%= @opponent_color %>"><a href="/games">fire!</a></td>
+            <td class="coordinate <%= @opponent_color %>"></td>
           <% end %>
         <% end %>
       </tr>
@@ -73,8 +72,6 @@
 </div>
 
 
-<!-- displays fire coordinate form if user's turn -->
-<% if @player_turn %>
 
   <% @rows = [['a'],['b'], ['c'], ['d'], ['e'], ['f'], ['g'], ['h'], ['i'], ['j']] %>
   <% @cols = [['1'],['2'], ['3'], ['4'], ['5'], ['6'], ['7'], ['8'], ['9'], ['10']] %>
@@ -84,6 +81,8 @@
     <%= select_tag(:column, options_for_select( @cols )) %>
     <%= submit_tag "Fire" %>
   <% end %>
+<!-- displays fire coordinate form if user's turn -->
+<% if @player_turn %>
 
 <% end %>
   </div>

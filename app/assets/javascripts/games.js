@@ -1,20 +1,19 @@
 $(document).ready(function() {
-  $('.fire').submit(function(){
-      $('.fire').hide()
-  var turn = setInterval(function(){
 
+  setInterval(ajaxCall, 1000) ;
+
+  function ajaxCall() {
     $.ajax({
       url: "/games/" + $('#game-id').val() + '/what_turn'
     })
     .done(function(response) {
-      if(response.myTurn == true){
-        $('.fire').show()
+      console.log('MONEY')
+      if(response === true){
+        $('.fire').show();
       }
-
+      else if(response === false){
+        $(".fire").hide();
+      }
     })
-    // .fail(function(error){
-    //   console.log(error);
-    // })
-  }, 5000);
-  })
+    }
 })
