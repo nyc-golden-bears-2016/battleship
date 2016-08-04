@@ -1,6 +1,11 @@
 <div id='gamepage'>
   <div id='tables'>
-  <h1><%=@opponent.username.upcase%></h1>
+    <% if !@player_turn %>
+      <% @opponent_color = "your-turn" %>
+    <% else %>
+      <% @opponent_color = "their-turn" %>
+    <% end %>
+  <h1 class="player"><%=@opponent.username.upcase%></h1>
 <div>
   <table style="width:100%">
     <tr>
@@ -11,23 +16,33 @@
     </tr>
     <% 10.times do |row| %>
       <tr>
-        <td class="coordinate_header"><%= number_to_letter(row) %></td>
+        <td class="coordinate_header <%= @opponent_color %>"><%= number_to_letter(row) %></td>
         <% 10.times do |column| %>
           <% current_tile = @opponent_board.find_by(coordinates: "#{number_to_letter(row)}, #{column + 1}") %>
           <% if !current_tile.ship && current_tile.hit == true %>
-            <td class="coordinate">&#128711;</td>
+            <td class="coordinate <%= @opponent_color %>">&#128711;</td>
           <% elsif current_tile.ship && current_tile.hit == true %>
-            <td class="coordinate">&#10004;</td>
+            <td class="coordinate <%= @opponent_color %>">&#10004;</td>
           <% else %>
-            <td class="coordinate"></td>
+            <td class="coordinate <%= @opponent_color %>"></td>
           <% end %>
         <% end %>
       </tr>
     <% end %>
   </table>
 </div>
+<% if @player_turn %>
+    <% @your_color = "your-turn" %>
+  <% else %>
+    <% @your_color = "their-turn" %>
+<% end %>
 
-<h1><%=@current_user.username.upcase%></h1>
+<!-- if a user tries to fire on a spot that has already been fired upon -->
+<% if params[:play_again] %>
+  <h2 class="error">You already fired there!</h2>
+<% end %>
+
+<h1 class="player"><%=@current_user.username.upcase%></h1>
 <div>
   <table style="width:100%">
     <tr>
@@ -37,18 +52,18 @@
       <% end %>
     </tr>
     <% 10.times do |row| %>
-      <tr>
-        <td class="coordinate_header"><%= number_to_letter(row) %></td>
+      <tr class="<%= @your_color %>">
+        <td class="coordinate_header <%= @your_color %>"><%= number_to_letter(row) %></td>
         <% 10.times do |column| %>
           <% current_tile = @your_board.find_by(coordinates: "#{number_to_letter(row)}, #{column + 1}") %>
           <% if !current_tile.ship && current_tile.hit == true %>
-            <td class="coordinate">&#x25CE;</td>
+            <td class="coordinate <%= @your_color %>">&#x25CE;</td>
           <% elsif current_tile.ship && current_tile.hit == true %>
-            <td class="coordinate">&#128680;</td>
+            <td class="coordinate <%= @your_color %>">&#128680;</td>
           <% elsif current_tile.ship %>
-            <td class="coordinate">&#x25C8;</td>
+            <td class="coordinate <%= @your_color %>">&#x25C8;</td>
           <% else %>
-            <td class="coordinate"></td>
+            <td class="coordinate <%= @your_color %>"></td>
           <% end %>
         <% end %>
       </tr>

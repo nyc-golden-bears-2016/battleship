@@ -9,7 +9,7 @@
     <nav class="nav-bar">
       <a href="/">Home</a>
       <% if @current_user %>
-        <%= @current_user.username.upcase %> |   <%= link_to 'Logout', logout_path %>
+        |   <%= link_to 'Logout', logout_path %> | <%= @current_user.username.upcase %>
       <% else %>
         <%= link_to 'Login', login_path %> | <%= link_to 'Signup', signup_path %>
       <% end %>

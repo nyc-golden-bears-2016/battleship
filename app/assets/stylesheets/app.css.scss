@@ -1,5 +1,5 @@
 .opener {
-  background: asset-data-url("ship.jpeg") no-repeat center center fixed;
+  background: asset-data-url("ship.jpeg") center center fixed;
   background-size: cover;
   // width:100%;
   // height:100%;
@@ -15,13 +15,8 @@ a {
 
   &:hover {
     font-weight: bold;
+    color: blue;
   }
-}
-
-nav h2 {
-  font-weight: bold;
-  font-size: 14;
-  padding: 5px 5px 5px 15px;
 }
 
 #firstpage{
@@ -40,8 +35,9 @@ nav h2 {
 
 .button{
   text-decoration: none;
-  height: 30px;
-  font-size: 20;
+  height: 60px;
+  width: 200px;
+  font-size: 30px;
   margin-top: 15px;
   text-align: center;
   border: none;
@@ -49,14 +45,26 @@ nav h2 {
   background-color: #262527;
   color: #D1CFD0;
 }
+.button:hover {
+  color: white;
+  zoom: 105%;
+}
+.join-game {
+  font-size: 20px;
+  height: 40px;
+  width: 100px;
+}
 
 #disastergirl {
   background: asset-data-url("disaster-girl3.jpg") no-repeat fixed;
   text-align: center;
 }
 
-#gamepage{
-  background: asset-data-url("sea2.jpg") no-repeat fixed;
+#gamepage,
+.hold,
+.hit
+{
+  background: asset-data-url("waves.jpg") no-repeat fixed;
   background-size: cover;
   text-align: center;
   // max-height: 800px;
@@ -76,6 +84,11 @@ td{
   // max-height: 15vh;
   // min-width: 12vw;
   border: none;
+  width: 7%;
   margin: 10px;
-  background-color: #5C8196;
+  background-color: #ccffff;
+  opacity: .95;
+  border-radius: 5px;
 }
+
+

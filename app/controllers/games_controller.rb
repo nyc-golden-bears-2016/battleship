@@ -59,10 +59,6 @@ class GamesController < ApplicationController
     end
   end
 
-  # def over
-  #   @current_user == User.find(@current_game.winner_id)
-  # end
-
   def update
     params.permit(:row)
     params.permit(:column)
@@ -70,7 +66,7 @@ class GamesController < ApplicationController
     col = params[:column]
     coord = row + ', ' + col
     tile = Tile.find_by(coordinates: coord, game_id: params[:id], player_id: opponent.id)
-    if tile
+    if tile && tile.hit == false
       tile.hit = true
       tile.save
       if tile.ship_id
@@ -78,6 +74,8 @@ class GamesController < ApplicationController
       else
         redirect_to "/games/#{@current_game.id}"
       end
+    elsif tile.hit == true
+      redirect_to "/games/#{@current_game.id}?play_again=true"
     else
       @errors = tile.errors.full_messages
       render 'show'
