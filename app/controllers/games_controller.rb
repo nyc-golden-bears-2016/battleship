@@ -15,8 +15,8 @@ class GamesController < ApplicationController
       @number = current_game.id
       @message = "Second player has not arrived."
       render 'hold'
-    # elsif game_over?
-    #   render :over
+    elsif game_over?
+      render :over
     else
       if current_game.tiles.where(player_id: @current_user.id).empty?
         current_game.create_tiles(@current_user.id)
@@ -106,33 +106,16 @@ private
 
 
   def game_over?
-    # p1_ships = @current_game.ships.where(player_id: @current_user.id)
-    # p1_ships.each do |ship|
-    #   p1_in_use = ship.tiles.reject { |tile| tile.hit == false }
-    # end
-    # p2_ships = @current_game.ships.where(player_id: opponent.id)
-    # p2_ships.each do |ship|
-    #   p2_in_use = ship.tiles.reject { |tile| tile.hit == false }
-    # end
-    # if p1_in_use.empty? || p2_in_use.empty?
-    #   true
-    # else
-    #   false
-    # # end
-    # User.where(:username => "Paul").includes(:domains).where("domains.name" => "paul-domain")
-    your_tiles = @current_game.ships.map do |ship|
-      ship.tiles.where(player_id: @current_user.id)
-    end
-    your_tiles.flatten!
-    your_ships = your_tiles.map do |tile|
-      tile.ship
-    end
-    your_ships.uniq!
-    if your_ships.all? { |ship| ship.is_destroyed? }
+    if !@current_game.tiles.empty?
+      your_tiles = @current_game.tiles.where(player_id: @current_user.id)
+      your_tiles.each do |tile|
+        if tile.ship && ( tile.hit == false )
+          return false
+        end
+      end
       return true
-    else
-      return false
     end
+    return false
   end
 
 
