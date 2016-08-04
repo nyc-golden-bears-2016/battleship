@@ -64,11 +64,11 @@ nav h2 {
 table {
 
   // border: 10px solid black;
-  // height: 50%;
-  // width: 50%;
+  max-height: 35vh;
+  max-width: 80vw;
   display: inline-table;
-  margin-left: 20px;
-  margin-right: 20px;
+  // margin-left: 20px;
+  // margin-right: 20px;
 }
 
 // #tables{
@@ -76,7 +76,7 @@ table {
 // }
 
 td{
-  height: 30px;
+  // height: 30px;
   border: none;
   margin: 10px;
   background-color: #0F3238;
