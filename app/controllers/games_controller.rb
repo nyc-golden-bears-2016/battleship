@@ -1,6 +1,6 @@
 class GamesController < ApplicationController
   before_action :current_user
-  before_action :current_game, only: [:show, :update, :hit, :hold]
+  before_action :current_game, only: [:show, :update, :hit, :hold, :destroy]
 
   def new
   end
@@ -15,8 +15,8 @@ class GamesController < ApplicationController
       @number = current_game.id
       @message = "Second player has not arrived."
       render 'hold'
-    # elsif game_over?
-    #   render '/over'
+    elsif game_over?
+      render :over
     else
       if current_game.tiles.where(player_id: @current_user.id).empty?
         current_game.create_tiles(@current_user.id)
@@ -38,7 +38,7 @@ class GamesController < ApplicationController
   def hit
     @hit_ship = Ship.find(params[:ship_id])
     if @hit_ship.is_destroyed?
-      redirect_to '/game/#{game.id}/destroy/#{@hit_ship.id}'
+      redirect_to "/games/#{@current_game.id}/destroy/#{@hit_ship.id}"
     end
   end
 
@@ -69,7 +69,7 @@ class GamesController < ApplicationController
       tile.hit = true
       tile.save
       if tile.ship_id
-        redirect_to "/games/#{@current_game.id}/hit"
+        redirect_to "/games/#{@current_game.id}/hit?ship_id=#{tile.ship_id}"
       else
         redirect_to "/games/#{@current_game.id}"
       end
@@ -106,44 +106,58 @@ private
 
 
   def game_over?
-    p1_ships = current_game.ships.where(player_id: @current_user.id)
-      p1_ships.each do |ship|
-          p1_in_use = ship.tiles.reject { |tile| tile.hit == false }
-      end
-      p2_ships = current_game.ships.where(player_id: opponent.id)
-      p2_ships.each do |ship|
-          p2_in_use = ship.tiles.reject { |tile| tile.hit == false }
-      end
-      if p1_in_use.empty? || p2_in_use.empty?
-        true
-      else
-        false
-      end
+    # p1_ships = @current_game.ships.where(player_id: @current_user.id)
+    # p1_ships.each do |ship|
+    #   p1_in_use = ship.tiles.reject { |tile| tile.hit == false }
+    # end
+    # p2_ships = @current_game.ships.where(player_id: opponent.id)
+    # p2_ships.each do |ship|
+    #   p2_in_use = ship.tiles.reject { |tile| tile.hit == false }
+    # end
+    # if p1_in_use.empty? || p2_in_use.empty?
+    #   true
+    # else
+    #   false
+    # # end
+    # User.where(:username => "Paul").includes(:domains).where("domains.name" => "paul-domain")
+    your_tiles = @current_game.ships.map do |ship|
+      ship.tiles.where(player_id: @current_user.id)
+    end
+    your_tiles.flatten!
+    your_ships = your_tiles.map do |tile|
+      tile.ship
+    end
+    your_ships.uniq!
+    if your_ships.all? { |ship| ship.is_destroyed? }
+      return true
+    else
+      return false
+    end
   end
 
 
   def set_up_ships(game)
-    aircraft = Ship.create(name: "Aircraft Carrier", length: 5, game: game)
+    # aircraft = Ship.create(name: "Aircraft Carrier", length: 5, game: game)
     # battle = Ship.create(name: "Battleship", length: 4, game: game)
-    # sub = Ship.create(name: "Submarine", length: 1, game: game)
+    sub = Ship.create(name: "Submarine", length: 1, game: game)
     # destroyer = Ship.create(name: "Destroyer", length: 2, game: game)
     # tom = Ship.create(name: "Cruiser", length: 3, game: game)
     # aircraft2 = Ship.create(name: "Aircraft Carrier", length: 5, game: game)
     # battle2 = Ship.create(name: "Battleship", length: 4, game: game)
-    # sub2 = Ship.create(name: "Submarine", length: 1, game: game)
     # destroyer2 = Ship.create(name: "Destroyer", length: 2, game: game)
     # tom2 = Ship.create(name: "Cruiser", length: 3, game: game)
+    sub2 = Ship.create(name: "Submarine", length: 1, game: game)
 
     # place_ship_at("c, 7", "vertical", tom, game, game.player_1)
-    # place_ship_at("a, 1", "horizontal", sub, game, game.player_1)
-    place_ship_at("i, 2", "horizontal", aircraft, game, game.player_1)
-    # place_ship_at("f, 5", "vertical", battle, game, game.player_1)
+    place_ship_at("a, 1", "horizontal", sub, game, game.player_1)
+    # place_ship_at("i, 2", "horizontal", aircraft, game, game.player_1)
+    # place_ship_at("e, 5", "vertical", battle, game, game.player_1)
     # place_ship_at("b, 10", "vertical", destroyer, game, game.player_1)
 
     # place_ship_at("e, 4", "vertical", tom2, game, game.player_2)
-    # place_ship_at("j, 9", "horizontal", sub2, game, game.player_2)
+    place_ship_at("j, 9", "horizontal", sub2, game, game.player_2)
     # place_ship_at("d, 1", "horizontal", aircraft2, game, game.player_2)
-    # place_ship_at("g, 9", "vertical", battle2, game, game.player_2)
+    # place_ship_at("f, 8", "vertical", battle2, game, game.player_2)
     # place_ship_at("i, 3", "vertical", destroyer2, game, game.player_2)
   end
 
@@ -157,8 +171,9 @@ private
       else
         return nil
       end
-      letter = coordinate[0].ord
-      number = coordinate[-1].to_i
+      letter_num = coordinate.split(", ")
+      letter = letter_num[0].ord
+      number = letter_num[1].to_i
       ship_tail = ship.length - 1
       ship_tail.times do
         if orientation == "horizontal"
@@ -196,15 +211,16 @@ private
   end
 
   def valid_coordinate?(coordinate)
-    letter = coordinate[0]
-    number = coordinate[-1].to_i
+    letter_num = coordinate.split(", ")
+    letter = letter_num[0].ord
+    number = letter_num[1].to_i
     if letter.ord > "j".ord
       return false
     elsif letter.ord < "a".ord
       return false
     elsif number > 10
       return false
-    elsif letter.ord < 1
+    elsif number < 1
       return false
     end
     return true
