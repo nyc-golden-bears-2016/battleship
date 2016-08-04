@@ -1,3 +1,4 @@
+<div class='opener'>
 <nav>
 <% if @current_user %>
 <%= @current_user.username.upcase %> |   <%= link_to 'Logout', logout_path %>
@@ -7,16 +8,18 @@
 </nav>
 <br>
 
-<div class=welcome> </div>
+<div id='firstpage'>
 
 
 <%= form_for :game, url: '/games' do |f| %>
-BEGIN A NEW GAME <br>
-  <%= f.submit "Submit" %>
-<% end %>
+  <%= f.submit 'create game', :class => 'button' %>
+<% end %><br><br><br><br><br><br>
 
 <%= form_for :game, url: '/games/join' do |f| %>
-  Enter Unique Game ID <%= f.text_field :gamenum %><br>
-  <%= f.submit "Submit" %>
+  <%= f.text_field :gamenum, :class => 'entry', value: 'enter game #'%>
+  <%= f.submit 'join game', :class => 'button' %>
 <% end %>
 <br>
+
+</div>
+</div>
