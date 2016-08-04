@@ -17,4 +17,8 @@ get '/games/:id/destroy/:ship_id' => 'games#destroy'
 
 get '/games/:id/what_turn' => 'games#turn'
 
+get 'games/:id/ships/new' => 'ships#new'
+post 'games/:id/ships/create' => 'ships#create'
+
+
 end

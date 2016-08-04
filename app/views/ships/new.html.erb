@@ -1,0 +1,32 @@
+<% rows = [['a'],['b'], ['c'], ['d'], ['e'], ['f'], ['g'], ['h'], ['i'], ['j']] %>
+<% cols = [['1'],['2'], ['3'], ['4'], ['5'], ['6'], ['7'], ['8'], ['9'], ['10']] %>
+<% orientation = [["horizontal"], ["vertical"]] %>
+
+<%= form_tag("/games/#{@current_game.id}/ships/create", method: 'post') do %>
+  <p class="ship_name">Aircraft Carrier</p>
+  <%= select_tag(:aircraft_row, options_for_select( rows )) %>
+  <%= select_tag(:aircraft_column, options_for_select( cols )) %>
+  <%= select_tag(:aircraft_orientation, options_for_select( orientation )) %>
+  <br>
+  <p class="ship_name">Battleship</p>
+  <%= select_tag(:battle_row, options_for_select( rows )) %>
+  <%= select_tag(:battle_column, options_for_select( cols )) %>
+  <%= select_tag(:battle_orientation, options_for_select( orientation )) %>
+  <br>
+  <p class="ship_name">Submarine</p>
+  <%= select_tag(:sub_row, options_for_select( rows )) %>
+  <%= select_tag(:sub_column, options_for_select( cols )) %>
+  <%= select_tag(:sub_orientation, options_for_select( orientation )) %>
+  <br>
+  <p class="ship_name">Destroyer</p>
+  <%= select_tag(:destoryer_row, options_for_select( rows )) %>
+  <%= select_tag(:destoryer_column, options_for_select( cols )) %>
+  <%= select_tag(:destroyer_orientation, options_for_select( orientation )) %>
+  <br>
+  <p class="ship_name">Cruiser</p>
+  <%= select_tag(:tom_row, options_for_select( rows )) %>
+  <%= select_tag(:tom_column, options_for_select( cols )) %>
+  <%= select_tag(:tom_orientation, options_for_select( orientation )) %>
+  <br>
+  <%= submit_tag "Ignite the flame of war" %>
+<% end %>
