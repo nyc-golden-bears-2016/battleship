@@ -2,12 +2,9 @@ class GamesController < ApplicationController
   before_action :current_user
   before_action :current_game, :opponent, only: [:show, :update, :hit, :hold, :destroy]
 
-  def new
-  end
-
   def create
-    @game = Game.create(player_1: @current_user)
-    redirect_to "/games/#{@game.id}/hold"
+    game = Game.create(player_1: @current_user)
+    redirect_to "/games/#{game.id}/hold"
   end
 
   def show
@@ -20,7 +17,7 @@ class GamesController < ApplicationController
       @current_game.winner_id = opponent.id
       @current_game.save
       render :over
-    elsif  opponent_game_over?
+    elsif opponent_game_over?
       @current_game.winner_id = current_user.id
       @current_game.save
       render :over
@@ -31,9 +28,9 @@ class GamesController < ApplicationController
         set_up_ships(@current_game)
       end
     end
-      @player_turn = player_turn
-      @opponent_board = current_game.tiles.where(player_id: opponent.id)
-      @your_board = current_game.tiles.where(player_id: @current_user.id)
+    @player_turn = player_turn
+    @opponent_board = current_game.tiles.where(player_id: opponent.id)
+    @your_board = current_game.tiles.where(player_id: @current_user.id)
   end
 
   def join
@@ -62,9 +59,9 @@ class GamesController < ApplicationController
     end
   end
 
-  def over
-    @current_user == User.find(@current_game.winner_id)
-  end
+  # def over
+  #   @current_user == User.find(@current_game.winner_id)
+  # end
 
   def update
     params.permit(:row)
@@ -82,8 +79,8 @@ class GamesController < ApplicationController
         redirect_to "/games/#{@current_game.id}"
       end
     else
-      render 'show'
       @errors = tile.errors.full_messages
+      render 'show'
     end
   end
 

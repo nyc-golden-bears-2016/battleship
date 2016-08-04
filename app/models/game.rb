@@ -12,7 +12,6 @@ class Game < ApplicationRecord
       cols.each do |number|
         coord = letter + ", " + number
         Tile.create(coordinates: coord, game_id: self.id, player_id: user_id)
-        # Tile.create(corod: coord, game_id: self.id, player_id: self.player_2)
       end
     end
   end
@@ -29,6 +28,4 @@ class Game < ApplicationRecord
       end
     end
   end
-
-
 end

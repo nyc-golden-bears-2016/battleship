@@ -11,3 +11,28 @@
   width: 20px;
   height: 20px;
 }*/
+
+}
+
+.nav-bar {
+  background-color: #ccffff;
+  padding: 20px;
+  border-bottom: 1px solid black;
+  margin-bottom: 5px;
+}
+
+.hold,
+.hit {
+  border-left: 1px solid black;
+  padding: 20px;
+  width: 70%;
+  margin-left: auto;
+}
+
+body {
+  border-left: 1px solid black;
+  width: 80%;
+  margin: auto;
+  padding: 10px;
+}
+
