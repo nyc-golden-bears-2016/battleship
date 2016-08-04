@@ -17,20 +17,7 @@ class Game < ApplicationRecord
     end
   end
 
-  def player_turn
-    total_tiles = self.tiles
-    total_plays = total_tiles.reduce(0) do |sum, tile|
-      if tile.hit
-        sum + 1
-      end
-      sum
-    end
-    if total_plays.odd? # && self.player_1 == current_user.id
-      true
-    else
-      false
-    end
-  end
+
 
   def create_opponent_tiles(opponent_id)
     rows = %w(a b c d e f g h i j)

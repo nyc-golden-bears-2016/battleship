@@ -15,7 +15,13 @@ class GamesController < ApplicationController
       @number = current_game.id
       @message = "Second player has not arrived."
       render 'hold'
-    elsif game_over?
+    elsif user_game_over?
+      @current_game.winner_id = opponent.id
+      @current_game.save
+      render :over
+    elsif  opponent_game_over?
+      @current_game.winner_id = current_user.id
+      @current_game.save
       render :over
     else
       if current_game.tiles.where(player_id: @current_user.id).empty?
@@ -24,6 +30,7 @@ class GamesController < ApplicationController
         set_up_ships(@current_game)
       end
     end
+      @player_turn = player_turn
       @opponent_board = current_game.tiles.where(player_id: opponent.id)
       @your_board = current_game.tiles.where(player_id: @current_user.id)
   end
@@ -104,8 +111,19 @@ private
     end
   end
 
+  def player_turn
+    total_tiles = Tile.all.where(game_id: current_game.id, hit: true).count
+    if total_tiles.even? && @current_game.player_1.id == current_user.id
+      true
+    elsif total_tiles.odd? && @current_game.player_2.id == current_user.id
+      true
+    else
+      false
+    end
+  end
 
-  def game_over?
+
+  def user_game_over?
     if !@current_game.tiles.empty?
       your_tiles = @current_game.tiles.where(player_id: @current_user.id)
       your_tiles.each do |tile|
@@ -118,6 +136,19 @@ private
     return false
   end
 
+
+  def opponent_game_over?
+    if !@current_game.tiles.empty?
+      opponent_tiles = @current_game.tiles.where(player_id: opponent.id)
+      opponent_tiles.each do |tile|
+        if tile.ship && ( tile.hit == false )
+          return false
+        end
+      end
+      return true
+    end
+    return false
+  end
 
   def set_up_ships(game)
     # aircraft = Ship.create(name: "Aircraft Carrier", length: 5, game: game)
