@@ -15,8 +15,8 @@ class GamesController < ApplicationController
       @number = current_game.id
       @message = "Second player has not arrived."
       render 'hold'
-    elsif game_over?
-      render :over
+    # elsif game_over?
+    #   render :over
     else
       if current_game.tiles.where(player_id: @current_user.id).empty?
         current_game.create_tiles(@current_user.id)
