@@ -34,9 +34,15 @@ class GamesController < ApplicationController
     redirect_to "/games/#{game.id}"
   end
 
-
   def hit
+    @hit_ship = Ship.find(params[:ship_id])
+    if @hit_ship.is_destroyed?
+      redirect_to '/game/#{game.id}/destroy/#{@hit_ship.id}'
+    end
+  end
 
+  def destroy
+    @destroyed_ship = Ship.find(params[:ship_id])
   end
 
   def hold
@@ -62,7 +68,7 @@ class GamesController < ApplicationController
       tile.hit = true
       tile.save
       if ship_hit(tile)
-        redirect_to '/hit'
+        redirect_to "/hit?ship_id=#{tile.ship_id}"
       else
         redirect_to '/show'
       end

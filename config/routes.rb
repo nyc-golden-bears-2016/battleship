@@ -13,6 +13,6 @@ get '/games/:id/hit' => 'games#hit'
 get '/games/:id/hold' => 'games#hold'
 get '/games/:id/over' => 'games#over'
 post '/games/join' => 'games#join'
-
+get '/games/:id/destroy/:ship_id' => 'games#destroy'
 
 end
