@@ -1,6 +1,6 @@
 class GamesController < ApplicationController
   before_action :current_user
-  before_action :current_game, :opponent, only: [:show, :update, :hit, :hold, :destroy]
+  before_action :current_game, :opponent, only: [:turn, :show, :update, :hit, :hold, :destroy]
 
   def create
     game = Game.create(player_1: @current_user)
@@ -80,6 +80,13 @@ class GamesController < ApplicationController
       @errors = tile.errors.full_messages
       render 'show'
     end
+  end
+
+  def turn
+    player = player_turn
+    respond_to do |format|
+     format.json { myTurn :player }
+   end
   end
 
 private

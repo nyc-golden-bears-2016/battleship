@@ -15,4 +15,6 @@ get '/games/:id/over' => 'games#over'
 post '/games/join' => 'games#join'
 get '/games/:id/destroy/:ship_id' => 'games#destroy'
 
+get '/games/:id/what_turn' => 'games#turn'
+
 end

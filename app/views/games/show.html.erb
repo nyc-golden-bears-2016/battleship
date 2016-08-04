@@ -78,15 +78,14 @@
   <% @rows = [['a'],['b'], ['c'], ['d'], ['e'], ['f'], ['g'], ['h'], ['i'], ['j']] %>
   <% @cols = [['1'],['2'], ['3'], ['4'], ['5'], ['6'], ['7'], ['8'], ['9'], ['10']] %>
 
-  <%= form_tag("/games/#{@current_game.id}", method: 'patch') do %>
+  <%= form_tag("/games/#{@current_game.id}", method: 'patch', :class => 'fire') do %>
     <%= select_tag(:row, options_for_select( @rows )) %>
     <%= select_tag(:column, options_for_select( @cols )) %>
     <%= submit_tag "Fire" %>
   <% end %>
 
-
-
-
 <% end %>
   </div>
 </div>
+
+<input type='hidden' id='game-id' value="<%=@current_game.id %>">
