@@ -11,7 +11,11 @@
       <tr>
         <td class="coordinate_header"><%= number_to_letter(row) %></td>
         <% 10.times do |column| %>
-          <% if @opponent_board.find_by(coordinates: "#{number_to_letter(row)}, #{ column.to_i + 1}").hit == true %>
+          <% current_tile = @opponent_board.find_by(coordinates: "#{number_to_letter(row)}, #{column + 1}") %>
+          <% #binding.pry %>
+          <% if current_tile.hit == true %>
+            <td class="coordinate">O</td>
+          <% elsif current_tile.ship && current_tile.hit == true %>
             <td class="coordinate">X</td>
           <% else %>
             <td class="coordinate"></td>
@@ -35,7 +39,12 @@
       <tr>
         <td class="coordinate_header"><%= number_to_letter(row) %></td>
         <% 10.times do |column| %>
-          <% if @your_board.find_by(coordinates: "#{number_to_letter(row)}, #{column + 1}").hit == true %>
+          <% current_tile = @your_board.find_by(coordinates: "#{number_to_letter(row)}, #{column + 1}") %>
+          <% if current_tile.hit == true %>
+            <td class="coordinate">O</td>
+          <% elsif current_tile.ship %>
+            <td class="coordinate">#</td>
+          <% elsif current_tile.ship && current_tile.hit == true %>
             <td class="coordinate">X</td>
           <% else %>
             <td class="coordinate"></td>
@@ -47,8 +56,6 @@
 </div>
 
 
-<!-- put fire form in if statement when users exit -->
-<% if @current_game.player_turn %>
 
   <% @rows = [['a'],['b'], ['c'], ['d'], ['e'], ['f'], ['g'], ['h'], ['i'], ['j']] %>
   <% @cols = [['1'],['2'], ['3'], ['4'], ['5'], ['6'], ['7'], ['8'], ['9'], ['10']] %>
@@ -60,6 +67,8 @@
   <% end %>
 
 
+<!-- put fire form in if statement when users exit -->
+<% if @current_game.player_turn %>
 
 <% end %>
 
