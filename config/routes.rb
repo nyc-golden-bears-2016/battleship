@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 root 'games#new'
 
-resources :users, only: [:new, :create, :destroy]
+resources :users, only: [:new, :create, :destroy, :show, :index]
 resources :games, only: [:new, :create, :show, :update]
 
 get '/login' => 'sessions#new'
