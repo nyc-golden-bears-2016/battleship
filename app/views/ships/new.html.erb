@@ -4,7 +4,7 @@
 
 <%= render "preview" %>
 
-<%= form_tag("/games/#{@current_game.id}/ships/create", method: 'post') do %>
+<%= form_tag("/games/#{@current_game.id}/ships/create", method: 'post', id: "setup") do %>
   <p class="ship_name">Aircraft Carrier</p>
   <%= select_tag(:aircraft_row, options_for_select( rows )) %>
   <%= select_tag(:aircraft_column, options_for_select( cols )) %>
