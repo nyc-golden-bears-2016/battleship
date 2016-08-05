@@ -15,6 +15,8 @@ class GamesController < ApplicationController
       @number = current_game.id
       @message = "Second player has not arrived."
       render 'hold'
+    elsif !(current_game.tiles.where(player_id: @current_user.id).empty?) && (current_game.player_2_setup == false || current_game.player_1_setup == false)
+      render :set_up
     elsif user_game_over?
       @current_game.winner_id = opponent.id
       @current_game.save
@@ -27,7 +29,7 @@ class GamesController < ApplicationController
       if current_game.tiles.where(player_id: @current_user.id).empty?
         current_game.create_tiles(@current_user.id)
         current_game.create_opponent_tiles(opponent.id)
-        set_up_ships(@current_game)
+        render :set_up
       end
     end
     @player_turn = player_turn
@@ -153,94 +155,5 @@ private
     return false
   end
 
-  def set_up_ships(game)
-    # aircraft = Ship.create(name: "Aircraft Carrier", length: 5, game: game)
-    # battle = Ship.create(name: "Battleship", length: 4, game: game)
-    sub = Ship.create(name: "Submarine", length: 1, game: game)
-    # destroyer = Ship.create(name: "Destroyer", length: 2, game: game)
-    # tom = Ship.create(name: "Cruiser", length: 3, game: game)
-    # aircraft2 = Ship.create(name: "Aircraft Carrier", length: 5, game: game)
-    # battle2 = Ship.create(name: "Battleship", length: 4, game: game)
-    # destroyer2 = Ship.create(name: "Destroyer", length: 2, game: game)
-    # tom2 = Ship.create(name: "Cruiser", length: 3, game: game)
-    sub2 = Ship.create(name: "Submarine", length: 1, game: game)
-
-    # place_ship_at("c, 7", "vertical", tom, game, game.player_1)
-    place_ship_at("a, 1", "horizontal", sub, game, game.player_1)
-    # place_ship_at("i, 2", "horizontal", aircraft, game, game.player_1)
-    # place_ship_at("e, 5", "vertical", battle, game, game.player_1)
-    # place_ship_at("b, 10", "vertical", destroyer, game, game.player_1)
-
-    # place_ship_at("e, 4", "vertical", tom2, game, game.player_2)
-    place_ship_at("j, 9", "horizontal", sub2, game, game.player_2)
-    # place_ship_at("d, 1", "horizontal", aircraft2, game, game.player_2)
-    # place_ship_at("f, 8", "vertical", battle2, game, game.player_2)
-    # place_ship_at("i, 3", "vertical", destroyer2, game, game.player_2)
-  end
-
-
-  def place_ship_at(coordinate, orientation, ship, game, player)
-    valid_tiles = []
-    if valid_coordinate?(coordinate)
-      potential_tile = game.tiles.find_by(coordinates: coordinate, player_id: player.id)
-      if !potential_tile.ship
-        valid_tiles << potential_tile
-      else
-        return nil
-      end
-      letter_num = coordinate.split(", ")
-      letter = letter_num[0].ord
-      number = letter_num[1].to_i
-      ship_tail = ship.length - 1
-      ship_tail.times do
-        if orientation == "horizontal"
-          number += 1
-          if !valid_coordinate?("#{letter.chr}, #{number}")
-            return nil
-          else
-            potential_tile = game.tiles.find_by(coordinates: "#{letter.chr}, #{number}", player_id: player.id)
-            if !potential_tile.ship
-              valid_tiles << potential_tile
-            else
-              return nil
-            end
-          end
-        elsif orientation == "vertical"
-          letter += 1
-          if !valid_coordinate?("#{letter.chr}, #{number}")
-            return nil
-          else
-            potential_tile = game.tiles.find_by(coordinates: "#{letter.chr}, #{number}", player_id: player.id)
-            if potential_tile.ship.nil?
-              valid_tiles << potential_tile
-            else
-              return nil
-            end
-          end
-        end
-      end
-    end
-    if valid_tiles.empty?
-      return nil
-    else
-      ship.tiles << valid_tiles
-    end
-  end
-
-  def valid_coordinate?(coordinate)
-    letter_num = coordinate.split(", ")
-    letter = letter_num[0].ord
-    number = letter_num[1].to_i
-    if letter.ord > "j".ord
-      return false
-    elsif letter.ord < "a".ord
-      return false
-    elsif number > 10
-      return false
-    elsif number < 1
-      return false
-    end
-    return true
-  end
 
 end

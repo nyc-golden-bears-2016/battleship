@@ -1,0 +1,19 @@
+<% if flash[:placement_failed] %>
+  <p class="placement_error"><%= flash[:placement_failed] %></p>
+<% end %>
+
+<% if @current_user.id == @current_game.player_1_id && @current_game.player_1_setup == false %>
+  <p>You have not set up yet</p>
+  <%= form_tag("/games/#{@current_game.id}/ships/new", method: 'get') do %>
+    <%= submit_tag "Setup" %>
+  <% end %>
+<% elsif @current_user.id == @current_game.player_1_id && @current_game.player_2_setup == false %>
+  <p>Opponent has not set up yet</p>
+<% elsif @current_user.id == @current_game.player_2_id && @current_game.player_2_setup == false %>
+  <p>You have not set up yet</p>
+  <%= form_tag("/games/#{@current_game.id}/ships/new", method: 'get') do %>
+    <%= submit_tag "Setup" %>
+  <% end %>
+<% elsif @current_user.id == @current_game.player_2_id && @current_game.player_1_setup == false %>
+  <p>Opponent has not set up yet</p>
+<% end %>
