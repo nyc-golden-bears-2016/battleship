@@ -1,0 +1,18 @@
+<div class="preview_board">
+  <table style="width:100%">
+    <tr>
+      <th class="preview_header"> </th>
+      <% 10.times do |row| %>
+        <th class="preview_header"><%= (row + 1) %></th>
+      <% end %>
+    </tr>
+    <% 10.times do |row| %>
+      <tr>
+        <td class="preview_header"><%= number_to_letter(row) %></td>
+        <% 10.times do |column| %>
+            <td class="preview_coord"></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+</div>

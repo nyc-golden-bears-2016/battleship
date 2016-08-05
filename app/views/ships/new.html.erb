@@ -2,6 +2,8 @@
 <% cols = [['1'],['2'], ['3'], ['4'], ['5'], ['6'], ['7'], ['8'], ['9'], ['10']] %>
 <% orientation = [["horizontal"], ["vertical"]] %>
 
+<%= render "preview" %>
+
 <%= form_tag("/games/#{@current_game.id}/ships/create", method: 'post') do %>
   <p class="ship_name">Aircraft Carrier</p>
   <%= select_tag(:aircraft_row, options_for_select( rows )) %>
