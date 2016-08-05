@@ -24,7 +24,7 @@
           <% elsif current_tile.ship && current_tile.hit == true %>
             <td class="coordinate <%= @opponent_color %>">&#10004;</td>
           <% else %>
-            <td class="coordinate <%= @opponent_color %>"><a href="<%=column%>, <%=row%>">fire!</a></td>
+            <td class="coordinate <%= @opponent_color %>"></td>
           <% end %>
         <% end %>
       </tr>

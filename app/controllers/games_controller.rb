@@ -11,7 +11,6 @@ class GamesController < ApplicationController
   end
 
   def show
-    binding.pry
     @opponent = opponent
     if current_game.player_2 == nil
       @number = current_game.id
@@ -81,14 +80,8 @@ class GamesController < ApplicationController
       tile.hit = true
       tile.save
       if tile.ship_id
-        if request.xhr?
-          ":)"
-        end
         redirect_to "/games/#{@current_game.id}/hit?ship_id=#{tile.ship_id}"
       else
-        if request.xhr?
-          ":)"
-        end
         redirect_to "/games/#{@current_game.id}"
       end
     elsif tile.hit == true

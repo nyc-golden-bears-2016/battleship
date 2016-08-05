@@ -1,41 +1,47 @@
-<h1><%= @user.username%>'s Profile</h1>
+<div class="user-profile">
+    <h1 class="user-name"><%= @user.username.capitalize %>'s Profile</h1>
 
-<div>
-    <table border = "1">
+    <div>
+        <table border = "1">
+            <tr>
+                <td>Total Battles:</td>
+                <td><%= @total_games.count %></td>
+            </tr>
+            <tr>
+                <td>Total Wins:</td>
+                <td><%= @games_won %></td>
+            </tr>
+            <tr>
+                <td>Winning Percentage:</td>
+                <td><%= ((@games_won.to_f / @total_games.count) * 100).round(2) %>%</td>
+            </tr>
+        </table>
+    </div>
+
+    <div>
+        <table class="user-stats">
         <tr>
-            <td>Total Battles:</td>
-            <td><%= @total_games.count %></td>
+            <th></th>
+            <th>Total</th>
+            <th>Per Battle</th>
         </tr>
-        <tr>
-            <td>Total Wins:</td>
-            <td><%= @games_won %></td>
-        </tr>
-        <tr>
-            <td>Winning Percentage:</td>
-            <td><%= ((@games_won.to_f / @total_games.count) * 100).round(2) %>%</td>
-        </tr>
-    </table>
+
+            <tr>
+                <td>Ships Sunk</td>
+                <td><%= @ships_sunk %></td>
+                <td><%= (@ships_sunk.to_f / @total_games.count).round(2) %></td>
+            </tr>
+            <tr>
+                <td>Ships Lost</td>
+                <td><%= @ships_lost %></td>
+                <td><%= (@ships_lost.to_f / @total_games.count).round(2) %></td>
+            </tr>
+        </table>
+    </div>
+
+    <a href="/">Back</a>
+
+    <div class="wait">
+      <div ><%= image_tag("boat", :class => "ship-animation")  %></div>
+    </div>
 </div>
-
-<div>
-    <table border = "1">
-    <tr>
-        <th></th>
-        <th>Total</th>
-        <th>Per Battle</th>
-    </tr>
-
-        <tr>
-            <td>Ships Sunk</td>
-            <td><%= @ships_sunk %></td>
-            <td><%= (@ships_sunk.to_f / @total_games.count).round(2) %></td>
-        </tr>
-        <tr>
-            <td>Ships Lost</td>
-            <td><%= @ships_lost %></td>
-            <td><%= (@ships_lost.to_f / @total_games.count).round(2) %></td>
-        </tr>
-    </table>
-</div>
-
-<a href="/">Back</a>

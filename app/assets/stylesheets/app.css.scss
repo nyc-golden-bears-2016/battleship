@@ -14,26 +14,51 @@
 
 
 a {
-  color: black;
+  color: white;
 
   &:hover {
     font-weight: bold;
-    color: blue;
+    color: #ff3333;
   }
 }
+  .logo {
+    color: #ff3333;
+    font-size: 33px;
+    font-family: helvetica;
+    margin-bottom: 10px;
+    float: right;
+    margin-right: 30px;
+  }
 
 #firstpage{
   padding-top: 10%;
   display: block;
   margin: auto;
 }
-
+.nav-bar {
+  background-color: #0000ff;
+  padding: 20px;
+  border-bottom: 1px solid black;
+  margin-bottom: 5px;
+}
 .entry{
   text-decoration: none;
   text-align: center;
   border: none;
   border-radius: 4px;
   background-color: white;
+}
+.happy-waves {
+  max-width: 90px;
+}
+
+.happy-waves-background {
+  background-color: #66ffff;
+}
+
+.home-boat {
+
+  background-color: #66ffff;
 }
 
 .button{
@@ -65,7 +90,9 @@ a {
 
 #gamepage,
 .hold,
-.hit
+.hit,
+.user-profile,
+.high-score
 {
   background: asset-data-url("waves.jpg") no-repeat fixed;
   background-size: cover;
@@ -88,7 +115,7 @@ table {
   margin-bottom: 10px;
 }
 
-td{
+td {
   // max-height: 15vh;
   // min-width: 12vw;
   border: none;
