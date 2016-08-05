@@ -7,7 +7,6 @@ $(document).ready(function() {
       url: "/games/" + $('#game-id').val() + '/what_turn'
     })
     .done(function(response) {
-      console.log('MONEY')
       if(response === true){
         $('.fire').show();
       }
