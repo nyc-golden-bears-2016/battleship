@@ -6,7 +6,7 @@
       <% @opponent_color = "their-turn" %>
     <% end %>
   <h1 class="player"><%=@opponent.username.upcase%></h1>
-<div>
+<div class="opponent_board">
   <table style="width:100%">
     <tr>
       <th class="coordinate_header"> </th>
@@ -43,7 +43,7 @@
 <% end %>
 
 <h1 class="player"><%=@current_user.username.upcase%></h1>
-<div>
+<div class="your_board">
   <table style="width:100%">
     <tr>
       <th class="coordinate_header"> </th>
