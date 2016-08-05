@@ -88,8 +88,9 @@ class GamesController < ApplicationController
   end
 
   def turn
+    first_turn = current_game.tiles.where(hit: true).empty?
     struck_coordinates = current_game.tiles.order(updated_at: :desc).first.coordinates
-    render json: {your_turn: player_turn, coordinates: struck_coordinates}.to_json
+    render json: {first_turn: first_turn, your_turn: player_turn, coordinates: struck_coordinates}.to_json
   end
 
 private
