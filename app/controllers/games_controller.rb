@@ -86,9 +86,9 @@ class GamesController < ApplicationController
         end
         redirect_to "/games/#{@current_game.id}/hit?ship_id=#{tile.ship_id}"
       else
-          if request.xhr?
-        ":)"
-      end
+        if request.xhr?
+          ":)"
+        end
         redirect_to "/games/#{@current_game.id}"
       end
     elsif tile.hit == true
