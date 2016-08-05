@@ -78,3 +78,22 @@ body {
   margin-bottom: 100%;
 }
 
+
+.preview_board {
+  float: right;
+}
+
+.preview_header {
+  border: 1px dotted blue;
+  border-radius: 0;
+  background-color: white;
+  width: 5px;
+  height: 5px;
+}
+
+.preview_coord {
+  border: 1px solid black;
+  width: 5px;
+  height: 5px;
+}
+
