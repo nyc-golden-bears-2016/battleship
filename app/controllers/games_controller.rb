@@ -67,8 +67,13 @@ class GamesController < ApplicationController
   def update
     params.permit(:row)
     params.permit(:column)
+    params.permit(:id)
     row = params[:row]
     col = params[:column]
+    if request.xhr?
+      letters = %w(a b c d e f g h i j)
+      row = letters[row.to_i]
+    end
     coord = row + ', ' + col
     tile = Tile.find_by(coordinates: coord, game_id: params[:id], player_id: opponent.id)
     if tile && tile.hit == false

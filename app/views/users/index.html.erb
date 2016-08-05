@@ -1,57 +1,62 @@
-<h1>HIGH SCORE</h1>
+<div class="high-score">
+    <h1>HIGH SCORE</h1>
 
-<h2>Wins</h2>
-<table border = "1">
-    <tr>
-        <th>Rank</th>
-        <th>User</th>
-        <th>Wins</th>
-    </tr>
-    <% rank = 1 %>
-    <% @user_wins_records.each do |wins_record| %>
-        <tr>
-            <td><%= rank %></td>
-            <td><%= User.find(wins_record[:user_id]).username %></td>
-            <td><%= wins_record[:games_won].count %></td>
-            <% rank += 1 %>
-        </tr>
-    <% end %>
-</table>
-
-<h2>Sinks</h2>
-    <table border = "1">
+    <h2>Wins</h2>
+    <table>
         <tr>
             <th>Rank</th>
             <th>User</th>
-            <th>Sinks</th>
+            <th>Wins</th>
         </tr>
         <% rank = 1 %>
-        <% @user_ships_record.sort_by! { |record| record[:ships][:sunk].count }.reverse! %>
-        <% @user_ships_record.each do |ships_record| %>
+        <% @user_wins_records.each do |wins_record| %>
             <tr>
                 <td><%= rank %></td>
-                <td><%= User.find(ships_record[:user_id]).username %></td>
-                <td><%= ships_record[:ships][:sunk].count %></td>
+                <td><%= User.find(wins_record[:user_id]).username %></td>
+                <td><%= wins_record[:games_won].count %></td>
                 <% rank += 1 %>
             </tr>
         <% end %>
     </table>
 
-<h2>Losts</h2>
-    <table border = "1">
-        <tr>
-            <th>Rank</th>
-            <th>User</th>
-            <th>Losts</th>
-        </tr>
-        <% rank = 1 %>
-        <% @user_ships_record.sort_by! { |record| record[:ships][:lost].count }.reverse! %>
-        <% @user_ships_record.each do |ships_record| %>
+    <h2>Sinks</h2>
+        <table>
             <tr>
-                <td><%= rank %></td>
-                <td><%= User.find(ships_record[:user_id]).username %></td>
-                <td><%= ships_record[:ships][:lost].count %></td>
-                <% rank += 1 %>
+                <th>Rank</th>
+                <th>User</th>
+                <th>Sinks</th>
             </tr>
-        <% end %>
-    </table>
+            <% rank = 1 %>
+            <% @user_ships_record.sort_by! { |record| record[:ships][:sunk].count }.reverse! %>
+            <% @user_ships_record.each do |ships_record| %>
+                <tr>
+                    <td><%= rank %></td>
+                    <td><%= User.find(ships_record[:user_id]).username %></td>
+                    <td><%= ships_record[:ships][:sunk].count %></td>
+                    <% rank += 1 %>
+                </tr>
+            <% end %>
+        </table>
+
+    <h2>Losts</h2>
+        <table>
+            <tr>
+                <th>Rank</th>
+                <th>User</th>
+                <th>Losts</th>
+            </tr>
+            <% rank = 1 %>
+            <% @user_ships_record.sort_by! { |record| record[:ships][:lost].count }.reverse! %>
+            <% @user_ships_record.each do |ships_record| %>
+                <tr>
+                    <td><%= rank %></td>
+                    <td><%= User.find(ships_record[:user_id]).username %></td>
+                    <td><%= ships_record[:ships][:lost].count %></td>
+                    <% rank += 1 %>
+                </tr>
+            <% end %>
+        </table>
+        <div class="wait">
+        <div ><%= image_tag("boat", :class => "ship-animation")  %></div>
+    </div>
+</div>

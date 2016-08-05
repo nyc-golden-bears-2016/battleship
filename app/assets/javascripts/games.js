@@ -1,7 +1,5 @@
 $(document).ready(function() {
 
-  updatePreview();
-
   function updateCoordinate(coord){
     coord = coord.split(", ");
     var row = coord[0].charCodeAt(0) - 95;
@@ -165,9 +163,11 @@ $(document).ready(function() {
           updateCoordinate(data.coordinates);
         }
         $('.fire').show();
+        $(".wait").hide();
       }
       else if(data.your_turn === false){
-        $(".fire").hide();
+        $(".wait").show();
+        $('.fire').hide();
       }
     });
   }
@@ -177,4 +177,6 @@ $(document).ready(function() {
     updatePreview();
   });
 
+
 });
+

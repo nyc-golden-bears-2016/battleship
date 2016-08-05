@@ -73,6 +73,7 @@
 
 
 
+
   <% @rows = [['a'],['b'], ['c'], ['d'], ['e'], ['f'], ['g'], ['h'], ['i'], ['j']] %>
   <% @cols = [['1'],['2'], ['3'], ['4'], ['5'], ['6'], ['7'], ['8'], ['9'], ['10']] %>
 
@@ -81,9 +82,13 @@
     <%= select_tag(:column, options_for_select( @cols )) %>
     <%= submit_tag "Fire" %>
   <% end %>
+
+<div class="wait">
+  <h1 class="waiting">Waiting...</h1>
+  <div ><%= image_tag("boat", :class => "ship-animation")  %></div>
+</div>
 <!-- displays fire coordinate form if user's turn -->
 <% if @player_turn %>
-
 <% end %>
   </div>
 </div>

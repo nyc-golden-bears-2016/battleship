@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
 
+before_action :current_user, only: [:show, :index]
   def new
   end
 
@@ -71,6 +72,16 @@ class UsersController < ApplicationController
   end
 
 private
+
+  def logged_in?
+    session[:user_id]
+  end
+
+  def current_user
+    if logged_in?
+      @current_user = User.find(session[:user_id])
+    end
+  end
 
   def user_params
     params.require(:user).permit(:username, :password)
