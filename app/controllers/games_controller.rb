@@ -1,6 +1,7 @@
 require 'json'
 
 class GamesController < ApplicationController
+  before_action :redirect, except: [:new, :create, :join]
   before_action :current_user
   before_action :current_game, :opponent, only: [:turn, :show, :update, :hit, :hold, :destroy]
 
@@ -100,6 +101,14 @@ private
   def current_user
     if logged_in?
       @current_user = User.find(session[:user_id])
+    end
+  end
+
+  def redirect
+    p1 = Game.find(params[:id]).player_1
+    p2 = Game.find(params[:id]).player_2
+    if !logged_in? || (logged_in? && current_user != p1 && current_user != p2)
+      redirect_to '/'
     end
   end
 
