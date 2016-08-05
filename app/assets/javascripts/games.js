@@ -1,7 +1,5 @@
 $(document).ready(function() {
-
-  setInterval(ajaxCall, 1000) ;
-
+  setInterval(ajaxCall, 1000);
   function ajaxCall() {
     $.ajax({
       url: "/games/" + $('#game-id').val() + '/what_turn'
