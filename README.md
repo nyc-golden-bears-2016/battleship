@@ -5,10 +5,15 @@ This is a fully functional battleship clone. It uses a Rails backend and an ERB 
 Setup: 
 
 `git clone https://github.com/nyc-golden-bears-2016/battleship.git`
+
 `cd battleship`
+
 `bundle install`
+
 `rails db:create`
+
 `rails db:migrate`
+
 `rails s`
 
 Then go to localhost:3000 in your browser and create a new player!
